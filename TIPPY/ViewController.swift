@@ -27,7 +27,7 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    //comment
     @IBAction func onEditingChanged(sender: AnyObject) {
         var tipPercentages = [0.18, 0.2, 0.22]
         let tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
@@ -35,7 +35,9 @@ class ViewController: UIViewController {
         let billAmount = (billText.text! as NSString).doubleValue
         let tip = billAmount * tipPercentage
         let total = billAmount + tip
-        let peopleNumber = (peopleText.text! as NSString).doubleValue
+        var peopleNumber = (peopleText.text! as NSString).doubleValue
+        if peopleNumber < 1{
+            peopleNumber = 1}
         let indtotal = total/peopleNumber
         tipLabel.text = "$\(tip)"
         totalLabel.text = "$\(total)"
@@ -50,7 +52,7 @@ class ViewController: UIViewController {
         let formatter = NSDateFormatter()
         formatter.dateStyle = .ShortStyle
         formatter.timeStyle = .ShortStyle
-        var saveStr = formatter.stringFromDate(date) + ":  $\(individualLabel)"
+        let saveStr = formatter.stringFromDate(date) + ":  $\(individualLabel)"
         // print("adding   \(saveStr)")
         // get current list & check if it already exists
         let defaults = NSUserDefaults.standardUserDefaults()
@@ -65,31 +67,41 @@ class ViewController: UIViewController {
         // save updated list
         defaults.setObject(spendList, forKey: "SpendList")
     }
-    
-    @IBAction func ViewSpending(sender: AnyObject) {
+
+
+    /* 
+    working on building second screen that displays saved values for spendings and date
+    @IBOutlet weak var displayList: UILabel!
+    @IBAction func showSimpleAlert(sender: AnyObject) {
+        let alert = UIAlertView(title: "Recent Spending", message: "Spend 1 SPend 2", delegate: self, cancelButtonTitle:"back")
+        alert.show()
+    }
+     func ViewSpending(sender: AnyObject) {
+        displayList.text = "Spendlist #1\n SpendList #2"
+
         // print the spending list
         
-        // get current list & check if it already exists
+        //get current list & check if it already exists
         let defaults = NSUserDefaults.standardUserDefaults()
     
         var spendList = defaults.arrayForKey("SpendList")
 
         if (spendList == nil) {
-            print( "SpendList is Empty")
+            // print( "SpendList is Empty")
+            displayList.text = "Spendlist is Empty"
         }
         else {
             
             let nItems = spendList!.count
-            
+            displayList.text = String(format: "%f", nItems)
+
             for index in 0...nItems-1 {
-                
-                
                 print( "\(index+1):  \(spendList![index])")
             }
-            }
-            
         }
-        
+    }
+    */
+    
     @IBAction func OnTap(sender: AnyObject) {
         view.endEditing(true)
     }
